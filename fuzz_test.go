@@ -4,13 +4,13 @@ package aegis_test
 
 import (
 	"bytes"
+	"crypto/rand"
 	"os"
 	"testing"
 	"time"
 
 	"github.com/ericlagergren/aegis"
 	"github.com/ericlagergren/aegis/internal/ref"
-	rand "github.com/ericlagergren/saferand"
 )
 
 func TestFuzz(t *testing.T) {
