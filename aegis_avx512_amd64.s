@@ -217,14 +217,13 @@ decryptFull:
 	VMOVDQU (DX), X7            // ci
 	VPXOR   X7, X6, X6          // xi = ci ^ z   (= M)
 	VMOVDQU X6, (AX)           // store 16 plaintext bytes
-	VMOVDQU X5, X7            // tmp = old S5
+	VAESENC X0, X5, X7        // tmp = AESRound(S5, S0)
 	VAESENC X5, X4, X5        // S5 = AESRound(S4, S5)
 	VAESENC X4, X3, X4        // S4 = AESRound(S3, S4)
 	VAESENC X3, X2, X3        // S3 = AESRound(S2, S3)
 	VAESENC X2, X1, X2        // S2 = AESRound(S1, S2)
 	VAESENC X1, X0, X1        // S1 = AESRound(S0, S1)
-	VAESENC X0, X7, X0        // S0 = AESRound(tmp, S0)
-	VPXOR   X6, X0, X0       // S0 ^= M
+	VPXOR   X6, X7, X0        // S0 = M ^ tmp
 	ADDQ $0x10, AX
 	ADDQ $0x10, DX
 	SUBQ $0x01, CX
