@@ -19,7 +19,7 @@ var (
 )
 
 func main() {
-	Package("github.com/ericlagergren/aegis")
+	Package("github.com/philhofer/aegis")
 	ConstraintExpr("gc,!purego")
 
 	rev64mask = GLOBL("rev64mask", RODATA|NOPTR)

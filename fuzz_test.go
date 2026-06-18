@@ -9,8 +9,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/ericlagergren/aegis"
-	"github.com/ericlagergren/aegis/internal/ref"
+	"github.com/philhofer/aegis"
+	"github.com/philhofer/aegis/internal/ref"
 )
 
 func TestFuzz(t *testing.T) {
