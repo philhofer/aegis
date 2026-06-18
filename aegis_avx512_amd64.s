@@ -332,4 +332,8 @@ finalize:
 	SETEQ    ok+112(FP)
 
 	VZEROALL
+	// ensure we don't leak the number of correct bytes
+	// in the authentication tag in any registers:
+	XORL     AX, AX
+	KXORW    K1, K1, K1
 	RET
