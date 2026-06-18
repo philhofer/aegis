@@ -8,8 +8,6 @@ import (
 	"errors"
 	"fmt"
 	"runtime"
-
-	"github.com/ericlagergren/subtle"
 )
 
 var errOpen = errors.New("aegis: message authentication failure")
@@ -96,8 +94,8 @@ func (a *aegis128) Seal(dst, nonce, plaintext, additionalData []byte) []byte {
 		panic("aegis: additional data too large")
 	}
 
-	ret, out := subtle.SliceForAppend(dst, len(plaintext)+TagSize128L)
-	if subtle.InexactOverlap(out, plaintext) {
+	ret, out := sliceForAppend(dst, len(plaintext)+TagSize128L)
+	if inexactOverlap(out, plaintext) {
 		panic("aegis: invalid buffer overlap")
 	}
 	seal128L(&a.key, (*[NonceSize128L]byte)(nonce),
@@ -118,8 +116,8 @@ func (a *aegis128) Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, 
 	tag := ciphertext[len(ciphertext)-TagSize128L:]
 	ciphertext = ciphertext[:len(ciphertext)-TagSize128L]
 
-	ret, out := subtle.SliceForAppend(dst, len(ciphertext))
-	if subtle.InexactOverlap(out, ciphertext) {
+	ret, out := sliceForAppend(dst, len(ciphertext))
+	if inexactOverlap(out, ciphertext) {
 		panic("aegis: invalid buffer overlap")
 	}
 
@@ -155,8 +153,8 @@ func (a *aegis256) Seal(dst, nonce, plaintext, additionalData []byte) []byte {
 		panic("aegis: additional data too large")
 	}
 
-	ret, out := subtle.SliceForAppend(dst, len(plaintext)+TagSize256)
-	if subtle.InexactOverlap(out, plaintext) {
+	ret, out := sliceForAppend(dst, len(plaintext)+TagSize256)
+	if inexactOverlap(out, plaintext) {
 		panic("aegis: invalid buffer overlap")
 	}
 
@@ -177,8 +175,8 @@ func (a *aegis256) Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, 
 	tag := ciphertext[len(ciphertext)-TagSize256:]
 	ciphertext = ciphertext[:len(ciphertext)-TagSize256]
 
-	ret, out := subtle.SliceForAppend(dst, len(ciphertext))
-	if subtle.InexactOverlap(out, ciphertext) {
+	ret, out := sliceForAppend(dst, len(ciphertext))
+	if inexactOverlap(out, ciphertext) {
 		panic("aegis: invalid buffer overlap")
 	}
 

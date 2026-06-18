@@ -13,8 +13,6 @@ import (
 	"crypto/cipher"
 	"errors"
 	"fmt"
-
-	"github.com/ericlagergren/subtle"
 )
 
 const (
@@ -62,8 +60,8 @@ func (a *aead) Seal(dst, nonce, plaintext, additionalData []byte) []byte {
 	if len(nonce) != a.NonceSize() {
 		panic("aegis: invalid nonce length")
 	}
-	ret, out := subtle.SliceForAppend(dst, len(plaintext)+a.Overhead())
-	if subtle.InexactOverlap(out, plaintext) {
+	ret, out := sliceForAppend(dst, len(plaintext)+a.Overhead())
+	if inexactOverlap(out, plaintext) {
 		panic("aegis: invalid buffer overlap")
 	}
 	var m *C.uchar
@@ -115,8 +113,8 @@ func (a *aead) Open(dst, nonce, ciphertext, additionalData []byte) ([]byte, erro
 	if len(ciphertext) < a.Overhead() {
 		return nil, errors.New("ciphertext too short")
 	}
-	ret, out := subtle.SliceForAppend(dst, len(ciphertext)-a.Overhead())
-	if subtle.InexactOverlap(out, ciphertext) {
+	ret, out := sliceForAppend(dst, len(ciphertext)-a.Overhead())
+	if inexactOverlap(out, ciphertext) {
 		panic("aegis: invalid buffer overlap")
 	}
 	var ad *C.uchar

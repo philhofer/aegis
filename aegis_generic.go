@@ -1,10 +1,9 @@
 package aegis
 
 import (
+	"crypto/subtle"
 	"encoding/binary"
 	"math/bits"
-
-	"github.com/ericlagergren/subtle"
 )
 
 type state128L struct {
