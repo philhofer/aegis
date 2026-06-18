@@ -1,4 +1,4 @@
-module github.com/ericlagergren/aegis
+module github.com/philhofer/aegis
 
 go 1.21
 
