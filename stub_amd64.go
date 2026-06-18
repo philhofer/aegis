@@ -24,4 +24,7 @@ func seal256Asm(key *[32]byte, nonce *[32]byte, out []byte, plaintext []byte, ad
 func open256Asm(key *[32]byte, nonce *[32]byte, out []byte, ciphertext []byte, tag []byte, additionalData []byte) (ok bool)
 
 //go:noescape
+func open256AVX512Asm(key *[32]byte, nonce *[32]byte, out []byte, ciphertext []byte, tag []byte, additionalData []byte) (ok bool)
+
+//go:noescape
 func update256Asm(s *state256, m *[16]byte)

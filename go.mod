@@ -1,6 +1,6 @@
 module github.com/ericlagergren/aegis
 
-go 1.17
+go 1.21
 
 require (
 	github.com/ericlagergren/saferand v0.0.0-20211228043234-529f04ad6e1a
