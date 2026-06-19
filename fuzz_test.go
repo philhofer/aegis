@@ -1,3 +1,5 @@
+//go:build unix
+
 package aegis_test
 
 import (
@@ -36,19 +38,19 @@ func testFuzz(f *testing.F, keySize, nonceSize int) {
 		if err != nil {
 			t.Fatal(err)
 		}
-		pt := []byte(plaintext)
-		at := []byte(ad)
+		pt := fence(t, plaintext)
+		at := fence(t, ad)
 
 		wantCt := refcrypt.Seal(nil, nonce, pt, at)
 		gotCt := ourcrypt.Seal(nil, nonce, pt, at)
 		if !bytes.Equal(wantCt, gotCt) {
 			t.Fatal("didn't get identical ciphertext")
 		}
-		wantPt, err := refcrypt.Open(nil, nonce, wantCt, at)
+		wantPt, err := refcrypt.Open(nil, nonce, fence(t, wantCt), at)
 		if err != nil {
 			t.Fatal(err)
 		}
-		gotPt, err := ourcrypt.Open(nil, nonce, gotCt, at)
+		gotPt, err := ourcrypt.Open(nil, nonce, fence(t, gotCt), at)
 		if err != nil {
 			t.Fatal(err)
 		}
@@ -57,6 +59,9 @@ func testFuzz(f *testing.F, keySize, nonceSize int) {
 		}
 		if !bytes.Equal(gotPt, pt) {
 			t.Fatal("didn't round-trip plaintext")
+		}
+		if string(pt) != plaintext || string(at) != ad {
+			t.Fatal("clobbered plaintext or ad?")
 		}
 	})
 }
