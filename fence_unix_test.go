@@ -14,7 +14,7 @@ func fence[T []byte | string](t *testing.T, s T) []byte {
 	pgsize := syscall.Getpagesize()
 	spgsize := (len(s) + pgsize - 1) &^ (pgsize - 1)
 	size := pgsize + spgsize
-	buf, err := syscall.Mmap(-1, 0, size, syscall.PROT_NONE, syscall.MAP_ANONYMOUS|syscall.MAP_PRIVATE)
+	buf, err := syscall.Mmap(-1, 0, size, syscall.PROT_NONE, syscall.MAP_ANON|syscall.MAP_PRIVATE)
 	if err != nil {
 		t.Fatal(err)
 	}
